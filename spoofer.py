@@ -329,7 +329,7 @@ def main():
         print(Fore.CYAN + "║" + " "*12 + "HARDWARE ID SPOOFER" + " "*12 + "║" + Style.RESET_ALL)
         print(Fore.CYAN + "╚" + "═"*48 + "╝" + Style.RESET_ALL)
         
-        print(Fore.WHITE + " v1.0.1" + Fore.BLUE + " • " + Fore.WHITE + "github.com/NikolisSecurity/PhantomID" + Style.RESET_ALL)
+        print(Fore.WHITE + " v1.0.0" + Fore.BLUE + " • " + Fore.WHITE + "github.com/NikolisSecurity/PhantomID" + Style.RESET_ALL)
         
         print(Fore.YELLOW + "\n┌─────────────────────────────────────────────┐" + Style.RESET_ALL)
         print(Fore.YELLOW + "│            HARDWARE SPOOFING                │" + Style.RESET_ALL)
