@@ -1,0 +1,4 @@
+colorama==0.4.6
+wmi==1.5.1
+requests==2.31.0
+pywin32==306
