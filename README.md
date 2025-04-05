@@ -38,9 +38,9 @@ PhantomID is a powerful hardware ID spoofing tool designed to modify system iden
 ```bash
 pip install colorama wmi requests
  ```
-```
 
 3. Run the application:
+
 ```bash
 python spoofer.py
  ```
