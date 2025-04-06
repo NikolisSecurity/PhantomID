@@ -75,7 +75,10 @@ def get_original_values():
     cursor.execute("SELECT change_type, original_value FROM changes")
     original_values = {row[0]: row[1] for row in cursor.fetchall()}
     
-    conn.close()
+    conn.close() 
+    if not original_values:
+        print(Fore.YELLOW + "\n[i] " + Fore.WHITE + "No changes found in database." + Style.RESET_ALL)
+    
     return original_values
 
 def discard_changes():
@@ -94,9 +97,27 @@ def discard_changes():
             interface = "Ethernet"
             change_mac(interface, original_value)
         elif change_type == "HWID":
-            pass
+            print(Fore.YELLOW + f"[i] HWID restoration requires system restart to take effect" + Style.RESET_ALL)
+        elif change_type == "IP":
+            interface = "Ethernet"
+            try:
+                print(Fore.CYAN + f"[*] Restoring IP to {original_value}..." + Style.RESET_ALL)
+                current_ip = get_current_ip()
+                if current_ip == original_value:
+                    print(Fore.YELLOW + f"[i] IP is already set to {original_value}" + Style.RESET_ALL)
+                else:
+                    change_ip(interface, original_value)
+                print(Fore.GREEN + f"[✓] IP address restored successfully" + Style.RESET_ALL)
+            except Exception as e:
+                print(Fore.RED + f"[!] Error restoring IP: {e}" + Style.RESET_ALL)
+        elif change_type == "Serial" or change_type == "BIOS Serial" or change_type == "CPU Serial" or \
+             change_type == "Processor ID" or change_type == "EFI Number":
+            print(Fore.YELLOW + f"[i] {change_type} restoration requires system restart to take effect" + Style.RESET_ALL)
+        else:
+            print(Fore.YELLOW + f"[i] Restoration of {change_type} is not implemented yet" + Style.RESET_ALL)
     
     print(Fore.GREEN + "\n[✓] " + Fore.WHITE + "Original values restored successfully" + Style.RESET_ALL)
+    print(Fore.YELLOW + "[i] " + Fore.WHITE + "Some changes may require a system restart to take full effect" + Style.RESET_ALL)
     
     conn = sqlite3.connect('phantomid.db')
     cursor = conn.cursor()
@@ -329,7 +350,7 @@ def main():
         print(Fore.CYAN + "║" + " "*12 + "HARDWARE ID SPOOFER" + " "*12 + "║" + Style.RESET_ALL)
         print(Fore.CYAN + "╚" + "═"*48 + "╝" + Style.RESET_ALL)
         
-        print(Fore.WHITE + " v1.0.0" + Fore.BLUE + " • " + Fore.WHITE + "github.com/NikolisSecurity/PhantomID" + Style.RESET_ALL)
+        print(Fore.WHITE + " v1.0.1" + Fore.BLUE + " • " + Fore.WHITE + "github.com/NikolisSecurity/PhantomID" + Style.RESET_ALL)
         
         print(Fore.YELLOW + "\n┌─────────────────────────────────────────────┐" + Style.RESET_ALL)
         print(Fore.YELLOW + "│            HARDWARE SPOOFING                │" + Style.RESET_ALL)
@@ -384,6 +405,7 @@ def main():
                 
                 print(Fore.GREEN + "\n[✓] " + Fore.WHITE + f"MAC changed to: {new_mac}" + Style.RESET_ALL)
                 changes['MAC'] = {'before': current_mac, 'after': new_mac}
+                save_changes_to_db(changes)  # Save changes immediately
             else:
                 print(Fore.YELLOW + "\n[i] " + Fore.WHITE + "Operation cancelled." + Style.RESET_ALL)
             
@@ -407,6 +429,7 @@ def main():
                 
                 print(Fore.GREEN + "\n[✓] " + Fore.WHITE + f"HWID changed successfully" + Style.RESET_ALL)
                 changes['HWID'] = {'before': current_hwid, 'after': new_hwid}
+                save_changes_to_db(changes)  # Save changes immediately
             else:
                 print(Fore.YELLOW + "\n[i] " + Fore.WHITE + "Operation cancelled." + Style.RESET_ALL)
             
@@ -420,7 +443,29 @@ def main():
             print(Fore.CYAN + "╚" + "═"*48 + "╝" + Style.RESET_ALL)
             
             print(Fore.CYAN + "\n[*] " + Fore.WHITE + "Retrieving current IP address..." + Style.RESET_ALL)
-            current_ip = "Original IP"
+            def get_current_ip():
+                try:
+                    import socket
+                    import subprocess
+                    import re
+                    
+                    result = subprocess.check_output(["ipconfig"], universal_newlines=True)
+                    
+                    for line in result.split('\n'):
+                        if "IPv4 Address" in line and "192.168.1" in line:
+                            return re.search(r'(\d+\.\d+\.\d+\.\d+)', line).group(1)
+                    
+                    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                    s.connect(("8.8.8.8", 80))  # Connect to Google's DNS server
+                    ip = s.getsockname()[0]
+                    s.close()
+                    return ip
+                except Exception as e:
+                    print(Fore.RED + f"[!] Error getting IP address: {e}" + Style.RESET_ALL)
+                    return "Unknown"
+            import socket
+            hostname = socket.gethostname()
+            current_ip = socket.gethostbyname(hostname)
             
             print(Fore.YELLOW + "\n[i] " + Fore.WHITE + f"Current IP: {current_ip}" + Style.RESET_ALL)
             
@@ -434,6 +479,7 @@ def main():
                 
                 print(Fore.GREEN + "\n[✓] " + Fore.WHITE + f"IP changed to: {new_ip}" + Style.RESET_ALL)
                 changes['IP'] = {'before': current_ip, 'after': new_ip}
+                save_changes_to_db(changes)  # Save changes immediately
             else:
                 print(Fore.YELLOW + "\n[i] " + Fore.WHITE + "Operation cancelled." + Style.RESET_ALL)
             
@@ -458,6 +504,7 @@ def main():
                 
                 print(Fore.GREEN + "\n[✓] " + Fore.WHITE + f"Serial changed successfully" + Style.RESET_ALL)
                 changes['Serial'] = {'before': current_serial, 'after': new_serial}
+                save_changes_to_db(changes)  # Save changes immediately
             else:
                 print(Fore.YELLOW + "\n[i] " + Fore.WHITE + "Operation cancelled." + Style.RESET_ALL)
             
@@ -484,6 +531,7 @@ def main():
                 
                 print(Fore.GREEN + "\n[✓] " + Fore.WHITE + f"BIOS Serial changed successfully" + Style.RESET_ALL)
                 changes['BIOS Serial'] = {'before': current_bios, 'after': new_bios}
+                save_changes_to_db(changes)  # Save changes immediately
             else:
                 print(Fore.YELLOW + "\n[i] " + Fore.WHITE + "Operation cancelled." + Style.RESET_ALL)
             
@@ -510,6 +558,7 @@ def main():
                 
                 print(Fore.GREEN + "\n[✓] " + Fore.WHITE + f"CPU Serial changed successfully" + Style.RESET_ALL)
                 changes['CPU Serial'] = {'before': current_cpu, 'after': new_cpu}
+                save_changes_to_db(changes)  # Save changes immediately
             else:
                 print(Fore.YELLOW + "\n[i] " + Fore.WHITE + "Operation cancelled." + Style.RESET_ALL)
             
@@ -536,6 +585,7 @@ def main():
                 
                 print(Fore.GREEN + "\n[✓] " + Fore.WHITE + f"Processor ID changed successfully" + Style.RESET_ALL)
                 changes['Processor ID'] = {'before': current_processor_id, 'after': new_processor_id}
+                save_changes_to_db(changes)  # Save changes immediately
             else:
                 print(Fore.YELLOW + "\n[i] " + Fore.WHITE + "Operation cancelled." + Style.RESET_ALL)
             
@@ -605,6 +655,21 @@ def main():
             
             system_info = check_system_info()
             changes['Serial Checker'] = system_info
+            save_changes_to_db(changes)
+            
+            input(Fore.CYAN + "\n Press Enter to return to main menu..." + Style.RESET_ALL)
+            
+        elif choice.upper() == 'U':
+            print("\033[H\033[J", end="")
+            print(Fore.CYAN + "\n╔" + "═"*48 + "╗" + Style.RESET_ALL)
+            print(Fore.CYAN + "║" + " "*15 + "UPDATE CHECKER" + " "*15 + "║" + Style.RESET_ALL)
+            print(Fore.CYAN + "╚" + "═"*48 + "╝" + Style.RESET_ALL)
+            
+            update_available = check_for_updates()
+            if update_available:
+                print(Fore.YELLOW + "\n[i] " + Fore.WHITE + "The application will now exit to apply updates." + Style.RESET_ALL)
+                print(Fore.YELLOW + "[i] " + Fore.WHITE + "Please restart the application after the update." + Style.RESET_ALL)
+                break
             
             input(Fore.CYAN + "\n Press Enter to return to main menu..." + Style.RESET_ALL)
             
@@ -627,8 +692,38 @@ def main():
             input(Fore.CYAN + "\n Press Enter to continue..." + Style.RESET_ALL)
 
 def save_changes_to_json(changes):
-    with open("phantomid_changes.json", "w") as json_file:
-        json.dump(changes, json_file, indent=4)
+    # This function now saves to the database instead of JSON
+    conn = sqlite3.connect('phantomid.db')
+    cursor = conn.cursor()
+    
+    cursor.execute("DELETE FROM changes")
+    cursor.execute("DELETE FROM system_info")
+    
+    for change_type, values in changes.items():
+        if change_type == 'Serial Checker':
+            for category, info in values.items():
+                if isinstance(info, list):
+                    for item in info:
+                        for key, value in item.items():
+                            cursor.execute(
+                                "INSERT INTO system_info (category, info_key, info_value) VALUES (?, ?, ?)",
+                                (category, key, str(value))
+                            )
+                else:
+                    cursor.execute(
+                        "INSERT INTO system_info (category, info_key, info_value) VALUES (?, ?, ?)",
+                        (category, "Value", str(info))
+                    )
+        else:
+            if isinstance(values, dict) and 'before' in values and 'after' in values:
+                cursor.execute(
+                    "INSERT INTO changes (change_type, original_value, new_value) VALUES (?, ?, ?)",
+                    (change_type, str(values['before']), str(values['after']))
+                )
+    
+    conn.commit()
+    conn.close()
+    print(Fore.GREEN + "\n[✓] " + Fore.WHITE + "Changes saved to database" + Style.RESET_ALL)
 
 def check_for_updates():
     print(Fore.CYAN + "\n[*] " + Fore.WHITE + "Checking for updates..." + Style.RESET_ALL)
@@ -642,7 +737,7 @@ def check_for_updates():
         response = requests.get(api_url)
         if response.status_code == 200:
             latest_version = response.json()["tag_name"]
-            current_version = "v1.0.0"  # This should match your current version
+            current_version = "v1.0.1"
             
             if latest_version > current_version:
                 print(Fore.YELLOW + "\n[i] " + Fore.WHITE + f"New version available: {latest_version}" + Style.RESET_ALL)
@@ -652,7 +747,6 @@ def check_for_updates():
                 if confirm.lower() == 'y':
                     print(Fore.CYAN + "\n[*] " + Fore.WHITE + "Downloading update..." + Style.RESET_ALL)
                     
-                    # Clone or pull the latest version
                     if os.path.exists(".git"):
                         subprocess.call(["git", "pull", "origin", "main"])
                     else:
@@ -684,7 +778,7 @@ def check_for_updates():
         response = requests.get(api_url)
         if response.status_code == 200:
             latest_version = response.json()["tag_name"]
-            current_version = "v1.0.0"  # This should match your current version
+            current_version = "v1.0.1"
             
             if latest_version > current_version:
                 print(Fore.YELLOW + "\n[i] " + Fore.WHITE + f"New version available: {latest_version}" + Style.RESET_ALL)
@@ -694,7 +788,6 @@ def check_for_updates():
                 if confirm.lower() == 'y':
                     print(Fore.CYAN + "\n[*] " + Fore.WHITE + "Downloading update..." + Style.RESET_ALL)
                     
-                    # Clone or pull the latest version
                     if os.path.exists(".git"):
                         subprocess.call(["git", "pull", "origin", "main"])
                     else:
