@@ -1,7 +1,0 @@
-{
-  "version": "v1.0.2",
-  "size": "2.5",
-  "update_file": "update_v1.0.2.zip",
-  "release_notes": "Added enhanced update system with backup and rollback capabilities",
-  "release_date": "2025-11-14"
-}
