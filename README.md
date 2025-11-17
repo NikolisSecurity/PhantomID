@@ -16,17 +16,17 @@
 PhantomID is a powerful hardware ID spoofing tool designed to modify system identifiers for privacy and security purposes. It allows you to change various hardware identifiers including MAC addresses, HWID, IP addresses, serial numbers, and more.
 
 ## ✨ Features
-- 🔄 Spoof MAC Address
-- 🔑 Spoof Hardware ID (HWID)
-- 🌐 Spoof IP Address
-- 📝 Spoof Serial Numbers
-- 💻 Spoof BIOS Serial Number
-- 🧠 Spoof CPU Serial Number
-- 🔍 Spoof Processor ID
-- 🔒 Spoof EFI Number
-- 🔎 System Serial Checker
-- 🔄 Automatic Updates
-- 📊 Change History Database
+- Spoof MAC Address
+- Spoof Hardware ID (HWID)
+- Spoof IP Address
+- Spoof Serial Numbers
+- Spoof BIOS Serial Number
+- Spoof CPU Serial Number
+- Spoof Processor ID
+- Spoof EFI Number
+- System Serial Checker
+- Automatic Updates
+- Change History Database
 
 ## 🔧 Requirements
 - Windows Operating System
