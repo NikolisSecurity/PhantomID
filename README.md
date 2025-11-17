@@ -9,7 +9,6 @@
 <p align="center">
   <img src="https://img.shields.io/github/stars/NikolisSecurity/PhantomID?style=social">
   <img src="https://img.shields.io/github/v/release/NikolisSecurity/PhantomID">
-  <img src="https://img.shields.io/github/license/NikolisSecurity/PhantomID">
   <img src="https://img.shields.io/github/downloads/NikolisSecurity/PhantomID/total">
 </p>
 
