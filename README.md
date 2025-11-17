@@ -14,7 +14,7 @@
 
 ## 📋 Overview
 PhantomID is a powerful hardware ID spoofing tool designed to modify system identifiers for privacy and security purposes. It allows you to change various hardware identifiers including MAC addresses, HWID, IP addresses, serial numbers, and more.
-<img width="500" height="500" alt="logo" src="phantomid-showcase.png" />
+<img width="750" height="750" alt="logo" src="phantomid-showcase.png" />
 
 ## ✨ Features
 - Spoof MAC Address
