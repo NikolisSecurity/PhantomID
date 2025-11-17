@@ -1,7 +1,7 @@
 # 🛡️ PhantomID - Hardware ID Spoofer
 
 <p align="center">
-    <img src="https://img.shields.io/badge/Platform-Windows-blue?style=for-the-badge&logo=linux" alt="Platform">
+  <img src="https://img.shields.io/badge/Platform-Linux-blue?style=for-the-badge&logo=linux" alt="Platform">
   <img src="https://img.shields.io/badge/Platform-Windows-blue?style=for-the-badge&logo=windows" alt="Platform">
   <img src="https://img.shields.io/badge/Language-Python-yellow?style=for-the-badge&logo=python" alt="Language">
 </p>
