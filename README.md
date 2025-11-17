@@ -6,6 +6,13 @@
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/github/stars/NikolisSecurity/PhantomID?style=social">
+  <img src="https://img.shields.io/github/v/release/NikolisSecurity/PhantomID">
+  <img src="https://img.shields.io/github/license/NikolisSecurity/PhantomID">
+  <img src="https://img.shields.io/github/downloads/NikolisSecurity/PhantomID/total">
+</p>
+
 ## 📋 Overview
 PhantomID is a powerful hardware ID spoofing tool designed to modify system identifiers for privacy and security purposes. It allows you to change various hardware identifiers including MAC addresses, HWID, IP addresses, serial numbers, and more.
 
