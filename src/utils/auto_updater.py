@@ -26,7 +26,7 @@ class AutoUpdater:
     def _get_config(self) -> Dict[str, Optional[str]]:
         repo = self.settings.get_setting('update_repo', '')
         if not repo:
-            repo = ''
+            repo = 'NikolisSecurity/PhantomID'
         branch = self.settings.get_setting('update_branch', 'main')
         token = self.settings.get_setting('update_token', None)
         auto_apply = bool(self.settings.get_setting('auto_update_apply', True))
