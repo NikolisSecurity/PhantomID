@@ -16,7 +16,7 @@
 
 ## 📋 Overview
 PhantomID is a powerful hardware ID spoofing tool designed to modify system identifiers for privacy and security purposes. It allows you to change various hardware identifiers including MAC addresses, HWID, IP addresses, serial numbers, and more.
-<img width="750" height="750" alt="showcase" src="phantomid-showcase.png" />
+<img width="750" height="750" alt="showcase" src="phantomid_banner.jpg" />
 
 **What’s New in v2.0**
 - PySide6 UI with a multi-page layout (dashboard, spoofers, settings, backup, history).
