@@ -9,7 +9,7 @@
   <img src="https://img.shields.io/github/stars/NikolisSecurity/PhantomID?style=social">
   <img src="https://img.shields.io/github/v/release/NikolisSecurity/PhantomID">
   <img src="https://img.shields.io/github/downloads/NikolisSecurity/PhantomID/total">
-  <a href="https://discord.gg/spwFJpVteQ" target="_blank">
+  <a href="https://discord.gg/rfWdrewbAz" target="_blank">
     <img src="https://img.shields.io/badge/Discord-Join%20Server-7289DA?logo=discord&logoColor=white" alt="Join our Discord">
   </a>
 </p>
