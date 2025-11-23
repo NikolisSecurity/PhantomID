@@ -582,7 +582,7 @@ class PhantomIDGUI(QMainWindow):
         clear_traces_btn.clicked.connect(self.cleanup_system)
         additional_actions_layout.addWidget(clear_traces_btn, 0, 0)
         discord_tools_btn = ModernButton("Discord")
-        discord_tools_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://discord.gg/vNAeak7Nes")))
+        discord_tools_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://discord.gg/rfWdrewbAz")))
         additional_actions_layout.addWidget(discord_tools_btn, 0, 1)
         
         layout.addWidget(additional_actions_group)
