@@ -17,7 +17,6 @@
 
 ## 📋 Overview
 PhantomID is a Windows hardware ID spoofing toolkit focused on safe, reversible changes. It provides Temp and Perma modes, per‑game spoofing, and a modern PySide6 UI.
-<img width="750" height="750" alt="showcase" src="phantomid-showcase.png" />
 
 **What’s New in v2**
 - Spoof Mode: Temp or Perma — switch in Settings.
