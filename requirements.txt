@@ -1,5 +1,6 @@
 wmi
-requests==2.31.0
+requests
 pywin32==306
 PySide6>=6.5,<7
+
 
