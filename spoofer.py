@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-PhantomID - Advanced Hardware ID Spoofer
-Main entry point for the spoofer application
-"""
-
 import sys
 import os
 from pathlib import Path
@@ -27,3 +21,4 @@ except ImportError:
 
 if __name__ == "__main__":
     main()
+
