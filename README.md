@@ -1,4 +1,4 @@
-# 🛡️ PhantomID v2 — Hardware ID Spoofer
+# 🛡️ PhantomID v2.5 — Hardware ID Spoofer
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Windows-blue?style=for-the-badge&logo=windows" alt="Platform">
